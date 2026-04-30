@@ -60,8 +60,10 @@ export const useCreateTrip = () => {
       Mixpanel.track('Trip:Create')
       return res.data
     },
-    onSuccess: ({ id }) =>
-      queryClient.invalidateQueries({ queryKey: [TRIP_QUERY, id] }),
+    onSuccess: ({ id }) => {
+      queryClient.invalidateQueries({ queryKey: [TRIP_QUERY, id] })
+      queryClient.invalidateQueries({ queryKey: [USER_QUERY] })
+    },
   })
 }
 
@@ -78,6 +80,7 @@ export const useUpdateTrip = () => {
         title: '✅ Trip saved',
       })
       queryClient.invalidateQueries({ queryKey: [TRIP_QUERY, data.id] })
+      queryClient.invalidateQueries({ queryKey: [USER_QUERY] })
     },
   })
 }
